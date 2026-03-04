@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.FactureTrigger.Dto.LoginResponseDto;
+import com.example.FactureTrigger.Dto.UserLoginDto;
 import com.example.FactureTrigger.Dto.UserRequestDto;
+import com.example.FactureTrigger.Service.AuthService;
 import com.example.FactureTrigger.Service.UserService;
 
 @RestController
@@ -14,15 +17,22 @@ import com.example.FactureTrigger.Service.UserService;
 public class UserController {
 	
 	private final UserService userService;
+	private final AuthService auth;
 
-	public UserController(UserService userService) {
+	public UserController(UserService userService, AuthService auth) {
 		super();
 		this.userService = userService;
+		this.auth = auth;
 	}
 	
 	@PostMapping("/register")
 	public ResponseEntity<String> register(@RequestBody UserRequestDto dto) {
 		this.userService.createUser(dto);
 		return ResponseEntity.ok("User created with success");
+	}
+	
+	@PostMapping("/login")
+	public LoginResponseDto login(@RequestBody UserLoginDto dto) {
+		return this.auth.login(dto);
 	}
 }
