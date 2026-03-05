@@ -6,14 +6,17 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.example.FactureTrigger.Repository.UserRepo;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 	
 	private final UserRepo userRepo;
@@ -24,9 +27,13 @@ public class SecurityConfig {
 	}
 	
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthFilter) throws Exception {
 		return http
 				.csrf(csrf -> csrf.disable())
+				.httpBasic(httpBasic -> httpBasic.disable())
+				.sessionManagement(session -> session
+						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+						)
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers(
 								"/auth/register",
@@ -36,7 +43,7 @@ public class SecurityConfig {
 								).permitAll()
 						.anyRequest().authenticated()
 						)
-				.httpBasic(Customizer.withDefaults())
+				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 				
 	}

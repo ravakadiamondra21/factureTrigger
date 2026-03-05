@@ -8,9 +8,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "facture")
 public class Facture {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +28,10 @@ public class Facture {
 	
 	@Column
 	private long montant;
+	
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 	
 	@OneToMany(mappedBy = "facture")
 	private List<Audit_facture> audit_facture;
@@ -70,6 +78,14 @@ public class Facture {
 
 	public void setMontant(long montant) {
 		this.montant = montant;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	
