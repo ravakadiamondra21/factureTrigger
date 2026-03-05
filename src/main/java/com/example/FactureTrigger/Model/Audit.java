@@ -2,6 +2,7 @@ package com.example.FactureTrigger.Model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +19,10 @@ public class Audit {
 
     private String username;
     private String action_type;
-    private LocalDateTime action_timestamp;
+    
+    @Column(name = "action_timestamp")
+    private LocalDateTime actionTimestamp;
+    
     private String host_name;
     private Integer facture_id;
     private Double montant_ancien;
@@ -35,7 +39,7 @@ public class Audit {
 		this.id_audit = id_audit;
 		this.username = username;
 		this.action_type = action_type;
-		this.action_timestamp = action_timestamp;
+		this.actionTimestamp = action_timestamp;
 		this.host_name = host_name;
 		this.facture_id = facture_id;
 		this.montant_ancien = montant_ancien;
@@ -67,11 +71,11 @@ public class Audit {
 	}
 
 	public LocalDateTime getAction_timestamp() {
-		return action_timestamp;
+		return actionTimestamp;
 	}
 
 	public void setAction_timestamp(LocalDateTime action_timestamp) {
-		this.action_timestamp = action_timestamp;
+		this.actionTimestamp = action_timestamp;
 	}
 
 	public String getHost_name() {

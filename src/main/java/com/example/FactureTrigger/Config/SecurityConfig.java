@@ -41,6 +41,7 @@ public class SecurityConfig {
 	                            "/v3/api-docs/**",
 	                            "/auth/login"
 								).permitAll()
+						.requestMatchers("/audit/**").hasRole("ADMIN")
 						.anyRequest().authenticated()
 						)
 				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
