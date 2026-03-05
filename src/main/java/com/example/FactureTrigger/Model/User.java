@@ -38,9 +38,6 @@ public class User implements UserDetails{
 	@Enumerated
 	private Role role;
 	
-	@OneToMany(mappedBy = "user")
-	private List<Audit_facture> audit_facture;
-	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
@@ -115,13 +112,6 @@ public class User implements UserDetails{
 		this.password = password;
 	}
 
-	public List<Audit_facture> getAudit_facture() {
-		return audit_facture;
-	}
-
-	public void setAudit_facture(List<Audit_facture> audit_facture) {
-		this.audit_facture = audit_facture;
-	}
 
 	public Role getRole() {
 		return role;

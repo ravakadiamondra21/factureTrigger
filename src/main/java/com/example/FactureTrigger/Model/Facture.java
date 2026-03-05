@@ -33,8 +33,6 @@ public class Facture {
 	@JoinColumn(name="user_id")
 	private User user;
 	
-	@OneToMany(mappedBy = "facture")
-	private List<Audit_facture> audit_facture;
 
 	public Facture(int num_facture, String nom, LocalDate date_facture, long montant) {
 		super();
