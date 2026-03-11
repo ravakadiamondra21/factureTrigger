@@ -1,6 +1,7 @@
 package com.example.FactureTrigger.Controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.example.FactureTrigger.Service.UserService;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "${app.cors.allowed-origin}")
 public class UserController {
 	
 	private final UserService userService;

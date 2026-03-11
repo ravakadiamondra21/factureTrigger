@@ -1,0 +1,25 @@
+CREATE OR REPLACE FUNCTION audit_facture()
+RETURNS TRIGGER AS $$
+DECLARE
+    v_username TEXT;
+    v_host TEXT;
+BEGIN
+    v_username := current_setting('app.current_user', true);
+    v_host := inet_client_addr()::text;
+
+    IF TG_OP = 'INSERT' THEN
+        INSERT INTO audit(username, action_type, action_timestamp, host_name, ancien_montant, nouveau_montant, facture_id)
+        VALUES (v_username, 'CREATE', NOW(), v_host, NULL, NEW.montant NEW.id);
+        RETURN NEW;
+    ELSIF TG_OP = 'UPDATE' THEN
+        INSERT INTO audit(username, action_type, action_timestamp, host_name, ancien_montant, nouveau_montant, facture_id)
+        VALUES (v_username, 'UPDATE', NOW(), v_host, OLD.montant, NEW.montant, NEW.id);
+        RETURN NEW;
+    ELSIF TG_OP = 'DELETE' THEN
+        INSERT INTO audit(username, action_type, action_timestamp, host_name, ancien_montant, nouveau_montant, facture_id)
+        VALUES (v_username, 'DELETE', NOW(), v_host, OLD.montant, NULL, OLD.id);
+        RETURN OLD;
+    END IF;
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;

@@ -22,6 +22,8 @@ public class UserService {
 	
 	public void createUser(UserRequestDto dto) {
 		
+		
+		
 		if(this.userRepo.findByUserEmail(dto.getEmail()).isPresent()) {
 			throw new RuntimeException("User already exists");
 		}

@@ -25,6 +25,9 @@ public class AuthService {
 	
 	
 	public LoginResponseDto login(UserLoginDto dto) {
+		System.out.println("eto");
+		System.out.println(dto.getUserEmail());
+		System.out.println("sy eto");
 		User user = this.userRepo.findByUserEmail(dto.getUserEmail()).orElseThrow();
 		
 		if(!passEnc.matches(dto.getPassword(), user.getPassword())) {
