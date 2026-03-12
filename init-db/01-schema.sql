@@ -1,10 +1,6 @@
-CREATE TABLE IF NOT EXISTS facture (
-    num_facture SERIAL PRIMARY KEY,
-    nom VARCHAR(255),
-    montant DOUBLE PRECISION,
-    date_facture DATE,
-    user_id INT
-);
+DROP TRIGGER IF EXISTS trigger_audit ON facture;
+DROP FUNCTION IF EXISTS audit_facture();
+DROP TABLE IF EXISTS audit;
 
 CREATE TABLE IF NOT EXISTS audit (
     id_audit SERIAL PRIMARY KEY,
@@ -14,7 +10,7 @@ CREATE TABLE IF NOT EXISTS audit (
     host_name TEXT,
     montant_ancien DOUBLE PRECISION,
     montant_nouveau DOUBLE PRECISION,
-    facture_id INT
+    nom TEXT
 );
 
 CREATE OR REPLACE FUNCTION audit_facture()
@@ -27,23 +23,22 @@ BEGIN
     v_host := inet_client_addr()::text;
 
     IF TG_OP = 'INSERT' THEN
-        INSERT INTO audit(username, action_type, action_timestamp, host_name, montant_ancien,  montant_nouveau, facture_id)
-        VALUES (v_username, 'CREATE', NOW(), v_host, NULL, NEW.montant, NEW.num_facture);
+        INSERT INTO audit(username, action_type, action_timestamp, host_name, montant_ancien,  montant_nouveau, nom)
+        VALUES (v_username, 'CREATE', NOW(), v_host, NULL, NEW.montant, NEW.nom);
         RETURN NEW;
     ELSIF TG_OP = 'UPDATE' THEN
-        INSERT INTO audit(username, action_type, action_timestamp, host_name, montant_ancien,  montant_nouveau, facture_id)
-        VALUES (v_username, 'UPDATE', NOW(), v_host, OLD.montant, NEW.montant, NEW.num_facture);
+        INSERT INTO audit(username, action_type, action_timestamp, host_name, montant_ancien,  montant_nouveau, nom)
+        VALUES (v_username, 'UPDATE', NOW(), v_host, OLD.montant, NEW.montant, NEW.nom);
         RETURN NEW;
     ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO audit(username, action_type, action_timestamp, host_name, montant_ancien,  montant_nouveau, facture_id)
-        VALUES (v_username, 'DELETE', NOW(), v_host, OLD.montant, NULL, OLD.num_facture);
+        INSERT INTO audit(username, action_type, action_timestamp, host_name, montant_ancien,  montant_nouveau, nom)
+        VALUES (v_username, 'DELETE', NOW(), v_host, OLD.montant, NULL, OLD.nom);
         RETURN OLD;
     END IF;
     RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trigger_audit ON facture;
 CREATE TRIGGER trigger_audit
 AFTER INSERT OR UPDATE OR DELETE ON facture
 FOR EACH ROW EXECUTE FUNCTION audit_facture();

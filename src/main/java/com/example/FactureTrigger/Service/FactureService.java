@@ -3,6 +3,7 @@ package com.example.FactureTrigger.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.FactureTrigger.Controller.DatabaseUserSessionManager;
@@ -78,7 +79,7 @@ public class FactureService {
 	@Transactional
 	public List<FactureDto> getAllFacture() {
 		List<FactureDto> allDto = new ArrayList<FactureDto>();
-		List<Facture> allFacture = this.factureRepo.findAll();
+		List<Facture> allFacture = this.factureRepo.findAll(Sort.by("numFacture").ascending());
 		
 		for (Facture f : allFacture) {
 			FactureDto dto = new FactureDto();

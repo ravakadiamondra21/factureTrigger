@@ -24,7 +24,7 @@ public class Audit {
     private LocalDateTime actionTimestamp;
     
     private String host_name;
-    private Integer facture_id;
+    private String nom;
     private Double montant_ancien;
     private Double montant_nouveau;
     
@@ -34,14 +34,14 @@ public class Audit {
 	}
 
 	public Audit(Long id_audit, String username, String action_type, LocalDateTime action_timestamp, String host_name,
-			Integer facture_id, Double montant_ancien, Double montant_nouveau) {
+			String nom, Double montant_ancien, Double montant_nouveau) {
 		super();
 		this.id_audit = id_audit;
 		this.username = username;
 		this.action_type = action_type;
 		this.actionTimestamp = action_timestamp;
 		this.host_name = host_name;
-		this.facture_id = facture_id;
+		this.nom = nom;
 		this.montant_ancien = montant_ancien;
 		this.montant_nouveau = montant_nouveau;
 	}
@@ -86,12 +86,22 @@ public class Audit {
 		this.host_name = host_name;
 	}
 
-	public Integer getFacture_id() {
-		return facture_id;
+
+
+	public LocalDateTime getActionTimestamp() {
+		return actionTimestamp;
 	}
 
-	public void setFacture_id(Integer facture_id) {
-		this.facture_id = facture_id;
+	public void setActionTimestamp(LocalDateTime actionTimestamp) {
+		this.actionTimestamp = actionTimestamp;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
 	public Double getMontant_ancien() {

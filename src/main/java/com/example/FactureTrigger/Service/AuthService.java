@@ -1,13 +1,18 @@
 package com.example.FactureTrigger.Service;
 
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.FactureTrigger.Dto.CountingAuditDto;
 import com.example.FactureTrigger.Dto.LoginResponseDto;
 import com.example.FactureTrigger.Dto.UserDto;
 import com.example.FactureTrigger.Dto.UserLoginDto;
 import com.example.FactureTrigger.Model.User;
 import com.example.FactureTrigger.Repository.UserRepo;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AuthService {
@@ -38,5 +43,7 @@ public class AuthService {
 		
 		return new LoginResponseDto(user.getId_user(), user.getUserEmail(), user.getUserName(), token, user.getRole().name());
 	}
+	
+	
 	
 }

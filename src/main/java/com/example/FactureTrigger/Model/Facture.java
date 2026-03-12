@@ -18,7 +18,8 @@ import jakarta.persistence.Table;
 public class Facture {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int num_facture;
+	@Column(name = "num_facture")
+	private int numFacture;
 	
 	@Column
 	private String nom;
@@ -36,7 +37,7 @@ public class Facture {
 
 	public Facture(int num_facture, String nom, LocalDate date_facture, long montant) {
 		super();
-		this.num_facture = num_facture;
+		this.numFacture = num_facture;
 		this.nom = nom;
 		this.date_facture = date_facture;
 		this.montant = montant;
@@ -47,11 +48,11 @@ public class Facture {
 	}
 
 	public int getNum_facture() {
-		return num_facture;
+		return numFacture;
 	}
 
 	public void setNum_facture(int num_facture) {
-		this.num_facture = num_facture;
+		this.numFacture = num_facture;
 	}
 
 	public String getNom() {
