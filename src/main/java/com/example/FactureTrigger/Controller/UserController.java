@@ -11,17 +11,17 @@ import com.example.FactureTrigger.Dto.LoginResponseDto;
 import com.example.FactureTrigger.Dto.UserLoginDto;
 import com.example.FactureTrigger.Dto.UserRequestDto;
 import com.example.FactureTrigger.Service.AuthService;
-import com.example.FactureTrigger.Service.UserServiceTest;
+import com.example.FactureTrigger.Service.UserService;
 
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin(origins = "${app.cors.allowed-origin}")
 public class UserController {
 	
-	private final UserServiceTest userService;
+	private final UserService userService;
 	private final AuthService auth;
 
-	public UserController(UserServiceTest userService, AuthService auth) {
+	public UserController(UserService userService, AuthService auth) {
 		super();
 		this.userService = userService;
 		this.auth = auth;
