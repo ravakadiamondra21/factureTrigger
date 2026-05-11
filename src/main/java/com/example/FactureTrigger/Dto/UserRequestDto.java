@@ -15,6 +15,14 @@ public class UserRequestDto {
 		this.password = password;
 		this.role = role;
 	}
+	
+	
+
+	public UserRequestDto() {
+		super();
+	}
+
+
 
 	public String getEmail() {
 		return email;
