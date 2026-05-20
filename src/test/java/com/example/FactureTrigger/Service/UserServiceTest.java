@@ -19,7 +19,7 @@ import com.example.FactureTrigger.Model.User;
 import com.example.FactureTrigger.Repository.UserRepo;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+public class UserServiceTest {
 
 	@Test
 	void test() {
